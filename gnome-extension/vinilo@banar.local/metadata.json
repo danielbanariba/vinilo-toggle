@@ -1,0 +1,8 @@
+{
+  "uuid": "vinilo@banar.local",
+  "name": "Vinilo Toggle",
+  "description": "Boton en la barra para escuchar el tocadiscos de vinilo. Un clic prende el loopback (Line-In -> preamp -> Aiyima T9), otro clic lo apaga. El icono cambia segun el estado.",
+  "shell-version": ["47", "48", "49", "50"],
+  "version": 1,
+  "url": ""
+}

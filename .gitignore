@@ -1,0 +1,5 @@
+# Artefactos locales / scratch
+*.png
+*.log
+/tmp/
+.DS_Store
