@@ -61,6 +61,10 @@ set -gx VINILO_SINK   alsa_output.pci-0000_00_1f.3.analog-stereo
 set -gx VINILO_CARD   0
 # Pares salida:entrada (estereo analogico estandar)
 set -gx VINILO_PORTS  capture_FL:playback_FL capture_FR:playback_FR
+# Nivel del ADC. 0dB = sin ganancia (lo mas limpio, el preamp ya da el nivel).
+# Si tu preamp clippea, atenua con un valor negativo (ej "-6dB").
+set -gx VINILO_CAPTURE 0dB
+set -gx VINILO_BOOST   0
 ```
 
 Para ver tus dispositivos:
@@ -74,7 +78,7 @@ pw-link -i                  # puertos de entrada (playback_*)
 
 ## Troubleshooting
 
-- **Ruido blanco fuerte**: la ganancia de captura está demasiado alta. `vinilo-on` ya pone `Line Boost = 0` y `Capture = 30%`. Si persiste, bajá `Capture` con `alsamixer` (tecla F4 = captura). Una señal de **línea** no necesita boost.
+- **Ruido blanco / estática**: la ganancia de captura está demasiado alta. `vinilo-on` pone `Line Boost = 0` y el ADC en `0dB` (sin ganancia — el preamp ya da el nivel). **No uses `pactl set-source-volume` para esto**: en el ALC1220 mapea el ADC y de 40%+ lo clava en +30dB → estática. El nivel se ajusta con `VINILO_CAPTURE` (amixer), y el volumen, en el amplificador.
 - **No suena nada**: confirmá que el cable está en el Line-In correcto y que tu salida (`VINILO_SINK`) es la que va al ampli. Probá `vinilo-status` (debe decir `on`).
 - **El botón no aparece**: en Wayland, relogueá. Verificá con `gnome-extensions info vinilo@banar.local` y los logs: `journalctl --user -b 0 -o cat | grep -i vinilo`.
 - **Sigue el ícono de micrófono**: asegurate de NO tener un `module-loopback` viejo cargado: `pactl list short modules | grep loopback` → si hay, `vinilo-off` lo limpia.

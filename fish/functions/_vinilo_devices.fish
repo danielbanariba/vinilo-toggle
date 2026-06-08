@@ -52,7 +52,11 @@ function _vinilo_devices --description 'Resuelve VINILO_SOURCE / VINILO_SINK / V
     if not set -q VINILO_BOOST; or test -z "$VINILO_BOOST"
         set -g VINILO_BOOST 0
     end
+    # 0dB = unidad: la PC NO agrega ganancia, solo digitaliza el line-level
+    # del preamp. Es lo mas limpio. Bajar de aca solo atenua (resigna nivel y
+    # resolucion del ADC). Si tu preamp es muy caliente y clippea, ponelo
+    # negativo (ej "-6dB") en config.fish.
     if not set -q VINILO_CAPTURE; or test -z "$VINILO_CAPTURE"
-        set -g VINILO_CAPTURE 30%
+        set -g VINILO_CAPTURE 0dB
     end
 end
