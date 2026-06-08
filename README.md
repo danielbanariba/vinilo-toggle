@@ -20,6 +20,8 @@ Tocadiscos → Line-In de la PC → [pw-link directo] → Salida → Preamp → 
 
 `module-loopback` crea un *stream de grabación* sobre el Line-In → GNOME muestra el **indicador de micrófono** (privacidad). `pw-link` conecta los puertos directo en el grafo, **sin cliente de grabación**, así que GNOME no muestra nada. Atacamos la raíz, no ocultamos el ícono (eso sería un agujero de privacidad real).
 
+> 🎚️ **¿Qué tan limpio suena?** El link directo es **bit-transparente** (sin resampling, sin volumen por software, sin DSP). Ver [docs/CALIDAD-DE-SEÑAL.md](docs/CALIDAD-DE-SEÑAL.md) para el análisis completo software vs hardware.
+
 ---
 
 ## Requisitos
