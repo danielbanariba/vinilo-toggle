@@ -1,7 +1,7 @@
-function _vinilo_devices --description 'Resuelve VINILO_SOURCE / VINILO_SINK / VINILO_CARD / VINILO_PORTS (auto-deteccion + override)'
+function _vinilo_devices --description 'Resuelve VINILO_SOURCE / VINILO_SINK / VINILO_CARD / VINILO_PORTS / niveles (auto-deteccion + override)'
     # --- Override opcional del usuario ---
     # Crea ~/.config/vinilo/config.fish y exporta/setea cualquiera de:
-    #   VINILO_SOURCE  VINILO_SINK  VINILO_CARD  VINILO_PORTS
+    #   VINILO_SOURCE  VINILO_SINK  VINILO_CARD  VINILO_PORTS  VINILO_CAPTURE  VINILO_BOOST
     if test -f "$HOME/.config/vinilo/config.fish"
         source "$HOME/.config/vinilo/config.fish"
     end
@@ -43,5 +43,16 @@ function _vinilo_devices --description 'Resuelve VINILO_SOURCE / VINILO_SINK / V
     # --- PUERTOS: pares salida:entrada (estereo analogico estandar) ---
     if not set -q VINILO_PORTS; or test -z "$VINILO_PORTS"
         set -g VINILO_PORTS capture_FL:playback_FL capture_FR:playback_FR
+    end
+
+    # --- NIVELES: una señal de LINEA no necesita boost. El ADC va a nivel
+    #     limpio; el VOLUMEN se controla en el amplificador, no aca.
+    #     IMPORTANTE: NO usar 'pactl set-source-volume' para esto: en el ALC1220
+    #     mapea el ADC y de 40%+ lo clava en +30dB -> estatica/distorsion.
+    if not set -q VINILO_BOOST; or test -z "$VINILO_BOOST"
+        set -g VINILO_BOOST 0
+    end
+    if not set -q VINILO_CAPTURE; or test -z "$VINILO_CAPTURE"
+        set -g VINILO_CAPTURE 30%
     end
 end
